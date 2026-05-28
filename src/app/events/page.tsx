@@ -3,6 +3,8 @@ import { Calendar, MapPin, Users, ExternalLink, Clock } from "lucide-react";
 import { format, isPast } from "date-fns";
 import { fr } from "date-fns/locale";
 
+export const dynamic = "force-dynamic";
+
 async function getEvents() {
   return prisma.event.findMany({
     orderBy: [{ featured: "desc" }, { date: "asc" }],
@@ -23,7 +25,6 @@ export default async function EventsPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
-      {/* Header */}
       <div className="mb-10">
         <h1 className="text-2xl font-bold text-white flex items-center gap-2 mb-2">
           <Calendar size={24} className="text-[#C8102E]" />
@@ -34,7 +35,6 @@ export default async function EventsPage() {
         </p>
       </div>
 
-      {/* Featured event banner */}
       {events.find((e) => e.featured && !isPast(new Date(e.date))) && (() => {
         const featured = events.find((e) => e.featured && !isPast(new Date(e.date)))!;
         const tc = typeConfig[featured.type] || { label: featured.type, color: "bg-gray-500/10 text-gray-400 border-gray-500/20", icon: "📅" };
@@ -50,7 +50,6 @@ export default async function EventsPage() {
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">{featured.title}</h2>
               <p className="text-gray-400 mb-6 max-w-2xl leading-relaxed">{featured.description}</p>
-
               <div className="flex flex-wrap gap-4 text-sm text-gray-300 mb-6">
                 <span className="flex items-center gap-2">
                   <Calendar size={16} className="text-[#FECB00]" />
@@ -68,14 +67,8 @@ export default async function EventsPage() {
                   </span>
                 )}
               </div>
-
               {featured.registrationLink ? (
-                <a
-                  href={featured.registrationLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#FECB00] text-[#0a0f1e] font-semibold rounded-xl hover:bg-[#FECB00]/90 transition-colors"
-                >
+                <a href={featured.registrationLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-[#FECB00] text-[#0a0f1e] font-semibold rounded-xl hover:bg-[#FECB00]/90 transition-colors">
                   S&apos;inscrire <ExternalLink size={16} />
                 </a>
               ) : (
@@ -88,53 +81,30 @@ export default async function EventsPage() {
         );
       })()}
 
-      {/* Upcoming events */}
       {upcoming.length > 0 && (
         <div className="mb-12">
           <h2 className="text-lg font-semibold text-white mb-5 flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             Événements à venir
           </h2>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {upcoming.map((evt) => {
               const tc = typeConfig[evt.type] || { label: evt.type, color: "bg-gray-500/10 text-gray-400 border-gray-500/20", icon: "📅" };
               return (
                 <div key={evt.id} className="bg-white/3 border border-white/8 rounded-2xl p-6 hover:border-white/15 transition-all">
                   <div className="flex items-center gap-2 mb-3">
-                    <span className={`text-xs px-2 py-0.5 rounded-full border ${tc.color}`}>
-                      {tc.icon} {tc.label}
-                    </span>
+                    <span className={`text-xs px-2 py-0.5 rounded-full border ${tc.color}`}>{tc.icon} {tc.label}</span>
                     {evt.featured && <span className="text-xs text-[#FECB00]">★ Vedette</span>}
                   </div>
-
                   <h3 className="font-semibold text-white mb-2 text-lg leading-snug">{evt.title}</h3>
                   <p className="text-sm text-gray-400 mb-4 line-clamp-2 leading-relaxed">{evt.description}</p>
-
                   <div className="space-y-1.5 text-sm text-gray-500 mb-5">
-                    <div className="flex items-center gap-2">
-                      <Calendar size={14} className="text-gray-600" />
-                      {format(new Date(evt.date), "EEEE d MMMM yyyy", { locale: fr })}
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <MapPin size={14} className="text-gray-600" />
-                      {evt.location}
-                    </div>
-                    {evt.capacity && (
-                      <div className="flex items-center gap-2">
-                        <Users size={14} className="text-gray-600" />
-                        {evt.capacity} places disponibles
-                      </div>
-                    )}
+                    <div className="flex items-center gap-2"><Calendar size={14} className="text-gray-600" />{format(new Date(evt.date), "EEEE d MMMM yyyy", { locale: fr })}</div>
+                    <div className="flex items-center gap-2"><MapPin size={14} className="text-gray-600" />{evt.location}</div>
+                    {evt.capacity && <div className="flex items-center gap-2"><Users size={14} className="text-gray-600" />{evt.capacity} places disponibles</div>}
                   </div>
-
                   {evt.registrationLink ? (
-                    <a
-                      href={evt.registrationLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-sm text-[#FECB00] hover:underline"
-                    >
+                    <a href={evt.registrationLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-[#FECB00] hover:underline">
                       S&apos;inscrire <ExternalLink size={13} />
                     </a>
                   ) : (
@@ -147,7 +117,6 @@ export default async function EventsPage() {
         </div>
       )}
 
-      {/* Past events */}
       {past.length > 0 && (
         <div>
           <h2 className="text-lg font-semibold text-gray-500 mb-5">Événements passés</h2>
@@ -157,12 +126,8 @@ export default async function EventsPage() {
               return (
                 <div key={evt.id} className="flex gap-4 bg-white/2 border border-white/5 rounded-xl p-4 opacity-60">
                   <div className="text-center min-w-14">
-                    <div className="text-lg font-bold text-gray-500">
-                      {format(new Date(evt.date), "d", { locale: fr })}
-                    </div>
-                    <div className="text-xs text-gray-600">
-                      {format(new Date(evt.date), "MMM yyyy", { locale: fr })}
-                    </div>
+                    <div className="text-lg font-bold text-gray-500">{format(new Date(evt.date), "d", { locale: fr })}</div>
+                    <div className="text-xs text-gray-600">{format(new Date(evt.date), "MMM yyyy", { locale: fr })}</div>
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
