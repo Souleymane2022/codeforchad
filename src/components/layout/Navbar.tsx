@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
-import { Menu, X, Code2, ChevronDown, LogOut, User, Settings } from "lucide-react";
+import { Menu, X, ChevronDown, LogOut, User, Settings } from "lucide-react";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -16,10 +17,8 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 font-bold text-lg">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#003082] via-[#FECB00] to-[#C8102E] flex items-center justify-center">
-              <Code2 size={16} className="text-white" />
-            </div>
-            <span className="text-white">Code<span className="text-[#FECB00]">For</span>Chad</span>
+            <Image src="/logo.png" alt="Code for Chad Logo" width={32} height={32} className="object-contain" />
+            <span className="text-white">Code<span className="text-chad-gold">For</span>Chad</span>
           </Link>
 
           {/* Desktop nav */}
@@ -47,7 +46,7 @@ export default function Navbar() {
                   onClick={() => setDropOpen(!dropOpen)}
                   className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-white/5 transition-colors"
                 >
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#003082] to-[#FECB00] flex items-center justify-center text-xs font-bold text-white">
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-chad-blue to-chad-gold flex items-center justify-center text-xs font-bold text-white">
                     {session.user.name?.[0]?.toUpperCase()}
                   </div>
                   <span className="text-sm text-gray-300">{session.user.name}</span>
@@ -79,7 +78,7 @@ export default function Navbar() {
                 <Link href="/auth/login" className="text-sm text-gray-300 hover:text-white px-4 py-2 rounded-lg hover:bg-white/5 transition-colors">
                   Connexion
                 </Link>
-                <Link href="/auth/register" className="text-sm font-medium bg-[#FECB00] text-[#0a0f1e] px-4 py-2 rounded-lg hover:bg-[#FECB00]/90 transition-colors">
+                <Link href="/auth/register" className="text-sm font-medium bg-chad-gold text-[#0a0f1e] px-4 py-2 rounded-lg hover:bg-chad-gold/90 transition-colors">
                   Rejoindre
                 </Link>
               </>
@@ -113,7 +112,7 @@ export default function Navbar() {
           ) : (
             <>
               <Link href="/auth/login" className="block px-4 py-2 text-gray-300 hover:text-white hover:bg-white/5 rounded-lg" onClick={() => setOpen(false)}>Connexion</Link>
-              <Link href="/auth/register" className="block px-4 py-2 text-center bg-[#FECB00] text-[#0a0f1e] font-medium rounded-lg hover:bg-[#FECB00]/90" onClick={() => setOpen(false)}>Rejoindre la communauté</Link>
+              <Link href="/auth/register" className="block px-4 py-2 text-center bg-chad-gold text-[#0a0f1e] font-medium rounded-lg hover:bg-chad-gold/90" onClick={() => setOpen(false)}>Rejoindre la communauté</Link>
             </>
           )}
         </div>
