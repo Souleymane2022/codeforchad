@@ -22,15 +22,11 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-4 mt-5">
               <a href="https://github.com/codeforchad" target="_blank" rel="noopener noreferrer"
-                className="transition-colors" style={{ color: '#6b7a99' }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#FECB00')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#6b7a99')}>
+                className="hover-text-gold transition-colors" style={{ color: '#6b7a99' }}>
                 <ExternalLink size={18} />
               </a>
               <a href="https://codeforchad.net" target="_blank" rel="noopener noreferrer"
-                className="transition-colors" style={{ color: '#6b7a99' }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#FECB00')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#6b7a99')}>
+                className="hover-text-gold transition-colors" style={{ color: '#6b7a99' }}>
                 <Globe size={18} />
               </a>
             </div>
@@ -47,9 +43,7 @@ export default function Footer() {
                 { href: "/auth/register", label: "Rejoindre" },
               ].map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="text-sm transition-colors" style={{ color: '#a0adbe' }}
-                    onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
-                    onMouseLeave={e => (e.currentTarget.style.color = '#a0adbe')}>
+                  <Link href={item.href} className="text-sm hover-text-white transition-colors" style={{ color: '#a0adbe' }}>
                     {item.label}
                   </Link>
                 </li>

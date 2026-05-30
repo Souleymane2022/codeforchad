@@ -66,13 +66,11 @@ export default async function HomePage() {
 
       {/* ── HERO ─────────────────────────────────────────────────── */}
       <section className="relative min-h-[92vh] flex items-center" style={{ background: 'linear-gradient(160deg, #f0f5ff 0%, #f5f7fa 50%, #fff8e1 100%)' }}>
-        {/* decorative blobs */}
         <div className="absolute top-20 -left-32 w-[500px] h-[500px] rounded-full opacity-20 blur-3xl pointer-events-none" style={{ background: '#003082' }} />
         <div className="absolute bottom-10 -right-32 w-[400px] h-[400px] rounded-full opacity-15 blur-3xl pointer-events-none" style={{ background: '#FECB00' }} />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-5 blur-3xl pointer-events-none" style={{ background: '#C8102E' }} />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-28 text-center">
-
           {/* badge */}
           <div className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold mb-8 shadow-sm"
             style={{ background: '#FECB00', color: '#0d1b3e' }}>
@@ -101,7 +99,7 @@ export default async function HomePage() {
               Rejoindre la communauté <ArrowRight size={18} />
             </Link>
             <Link href="/community"
-              className="px-8 py-4 font-semibold rounded-xl transition-all flex items-center gap-2 justify-center"
+              className="px-8 py-4 font-semibold rounded-xl transition-all flex items-center gap-2 justify-center hover-bg-light"
               style={{ background: '#fff', color: '#003082', border: '2px solid #003082' }}>
               Explorer les discussions
             </Link>
@@ -138,9 +136,9 @@ export default async function HomePage() {
             { icon: Calendar, title: "Événements", desc: "Hackathons, conférences, workshops — participez aux événements tech au Tchad.", bg: '#C8102E', href: "/events" },
             { icon: BookOpen, title: "Ressources", desc: "Tutoriels, articles, opportunités — tout pour progresser dans votre carrière tech.", bg: '#059669', href: "/community?category=ressources" },
           ].map((f) => (
-            <Link key={f.title} href={f.href} className="group bg-white rounded-2xl p-6 transition-all" style={{ border: '1px solid #dde3f0' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 12px 40px rgba(0,48,130,0.1)'; (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = ''; (e.currentTarget as HTMLElement).style.transform = ''; }}>
+            <Link key={f.title} href={f.href}
+              className="bg-white rounded-2xl p-6 transition-all hover-card"
+              style={{ border: '1px solid #dde3f0' }}>
               <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 shadow-sm" style={{ background: f.bg }}>
                 <f.icon size={22} style={{ color: f.iconColor ?? '#fff' }} />
               </div>
@@ -162,7 +160,7 @@ export default async function HomePage() {
                 <MessageSquare size={20} style={{ color: '#FECB00' }} />
                 Discussions récentes
               </h2>
-              <Link href="/community" className="text-sm font-semibold flex items-center gap-1" style={{ color: '#003082' }}>
+              <Link href="/community" className="text-sm font-semibold flex items-center gap-1 hover-text-blue transition-colors" style={{ color: '#003082' }}>
                 Tout voir <ArrowRight size={14} />
               </Link>
             </div>
@@ -174,16 +172,14 @@ export default async function HomePage() {
               ) : (
                 posts.map((post) => (
                   <Link key={post.id} href={`/community/${post.id}`}
-                    className="flex gap-4 bg-white rounded-xl p-4 transition-all group"
-                    style={{ border: '1px solid #dde3f0' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#003082'; (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 16px rgba(0,48,130,0.08)'; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#dde3f0'; (e.currentTarget as HTMLElement).style.boxShadow = ''; }}>
+                    className="flex gap-4 bg-white rounded-xl p-4 transition-all group hover-border-blue"
+                    style={{ border: '1px solid #dde3f0', display: 'flex' }}>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-xs px-2.5 py-0.5 rounded-full font-medium" style={{ background: `${post.category.color}15`, color: post.category.color }}>
                           {post.category.icon} {post.category.name}
                         </span>
-                        {post.pinned && <span className="text-xs font-medium" style={{ color: '#FECB00' }}>📌 Épinglé</span>}
+                        {post.pinned && <span className="text-xs font-medium" style={{ color: '#d4a900' }}>📌 Épinglé</span>}
                       </div>
                       <h3 className="font-semibold truncate mb-1 transition-colors" style={{ color: '#0d1b3e' }}>{post.title}</h3>
                       <div className="flex items-center gap-3 text-xs" style={{ color: '#6b7a99' }}>
@@ -199,10 +195,8 @@ export default async function HomePage() {
               )}
             </div>
             <Link href="/community/new"
-              className="mt-4 flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-semibold transition-colors"
-              style={{ border: '2px dashed #dde3f0', color: '#6b7a99' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#003082'; (e.currentTarget as HTMLElement).style.color = '#003082'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#dde3f0'; (e.currentTarget as HTMLElement).style.color = '#6b7a99'; }}>
+              className="mt-4 flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-semibold transition-colors hover-border-dashed"
+              style={{ border: '2px dashed #dde3f0', color: '#6b7a99' }}>
               <Zap size={16} />
               Démarrer une nouvelle discussion
             </Link>
@@ -216,7 +210,7 @@ export default async function HomePage() {
                   <Calendar size={20} style={{ color: '#C8102E' }} />
                   Événements
                 </h2>
-                <Link href="/events" className="text-sm font-semibold flex items-center gap-1" style={{ color: '#003082' }}>
+                <Link href="/events" className="text-sm font-semibold flex items-center gap-1 hover-text-blue transition-colors" style={{ color: '#003082' }}>
                   Tout voir <ArrowRight size={14} />
                 </Link>
               </div>
@@ -232,7 +226,7 @@ export default async function HomePage() {
                           <span className="text-xs px-2.5 py-0.5 rounded-full font-semibold" style={{ background: evtStyle.bg, color: evtStyle.text }}>
                             {evtStyle.label}
                           </span>
-                          {evt.featured && <span className="text-xs font-bold" style={{ color: '#FECB00' }}>★ Vedette</span>}
+                          {evt.featured && <span className="text-xs font-bold" style={{ color: '#d4a900' }}>★ Vedette</span>}
                         </div>
                         <h3 className="font-semibold text-sm leading-snug mb-2" style={{ color: '#0d1b3e' }}>{evt.title}</h3>
                         <div className="text-xs space-y-0.5" style={{ color: '#6b7a99' }}>
@@ -269,16 +263,13 @@ export default async function HomePage() {
               <Rocket size={22} style={{ color: '#C8102E' }} />
               Projets en vedette
             </h2>
-            <Link href="/projects" className="text-sm font-semibold flex items-center gap-1" style={{ color: '#003082' }}>
+            <Link href="/projects" className="text-sm font-semibold flex items-center gap-1 hover-text-blue transition-colors" style={{ color: '#003082' }}>
               Tous les projets <ArrowRight size={14} />
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {projects.map((project) => (
-              <div key={project.id} className="bg-white rounded-2xl p-6 transition-all"
-                style={{ border: '1px solid #dde3f0' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 12px 40px rgba(0,48,130,0.1)'; (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = ''; (e.currentTarget as HTMLElement).style.transform = ''; }}>
+              <div key={project.id} className="bg-white rounded-2xl p-6 transition-all hover-card-strong" style={{ border: '1px solid #dde3f0' }}>
                 <div className="flex items-start justify-between mb-3">
                   <div className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center" style={{ background: '#f0f3f8', border: '1px solid #dde3f0' }}>
                     <Image src="/logo.png" alt="Logo" width={28} height={28} className="object-contain" />
@@ -297,7 +288,9 @@ export default async function HomePage() {
                   <div className="flex items-center gap-3">
                     <span style={{ color: '#C8102E' }}>❤️ {project._count.likes}</span>
                     {project.github && (
-                      <a href={project.github} target="_blank" rel="noopener noreferrer" style={{ color: '#003082' }}><ExternalLink size={14} /></a>
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="hover-text-blue transition-colors" style={{ color: '#003082' }}>
+                        <ExternalLink size={14} />
+                      </a>
                     )}
                   </div>
                 </div>
@@ -311,9 +304,7 @@ export default async function HomePage() {
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6">
         <div className="relative rounded-3xl p-12 text-center text-white overflow-hidden"
           style={{ background: 'linear-gradient(135deg, #003082 0%, #001855 50%, #1a0a30 100%)' }}>
-          {/* Chad flag stripe at top of CTA */}
           <div className="absolute top-0 left-0 right-0 h-1.5 chad-stripe" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-px opacity-30" style={{ background: 'linear-gradient(90deg, transparent, #FECB00, transparent)' }} />
           <h2 className="text-3xl sm:text-4xl font-black mb-4">Prêt à rejoindre la communauté ?</h2>
           <p className="mb-8 max-w-lg mx-auto opacity-80">
             Des centaines de développeurs tchadiens construisent ensemble.

@@ -91,3 +91,22 @@ body {
 .chad-stripe {
   background: linear-gradient(90deg, #003082 33.33%, #FECB00 33.33% 66.66%, #C8102E 66.66%);
 }
+
+/* Hover utilities for server components */
+.hover-card:hover {
+  box-shadow: 0 8px 30px rgba(0, 48, 130, 0.10);
+  transform: translateY(-3px);
+}
+.hover-card-strong:hover {
+  box-shadow: 0 12px 40px rgba(0, 48, 130, 0.12);
+  transform: translateY(-3px);
+}
+.hover-border-blue:hover {
+  border-color: #003082 !important;
+  box-shadow: 0 4px 16px rgba(0, 48, 130, 0.08);
+}
+.hover-text-blue:hover { color: #003082 !important; }
+.hover-text-gold:hover { color: #FECB00 !important; }
+.hover-text-white:hover { color: #ffffff !important; }
+.hover-bg-light:hover { background: #f0f3f8 !important; }
+.hover-border-dashed:hover { border-color: #003082 !important; color: #003082 !important; }
