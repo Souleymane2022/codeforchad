@@ -3,7 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -57,11 +59,11 @@ model Session {
 }
 
 model Category {
-  id          String  @id @default(cuid())
+  id          String   @id @default(cuid())
   name        String
-  slug        String  @unique
+  slug        String   @unique
   description String?
-  color       String  @default("#003082")
+  color       String   @default("#003082")
   icon        String?
   posts       Post[]
 }
@@ -77,9 +79,9 @@ model Post {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  author   User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  category Category @relation(fields: [categoryId], references: [id])
-  replies  Reply[]
+  author     User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id])
+  replies    Reply[]
 }
 
 model Reply {
@@ -90,8 +92,8 @@ model Reply {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
 
 model Project {
@@ -107,8 +109,8 @@ model Project {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  author User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  likes  Like[]
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  likes       Like[]
 }
 
 model Like {
@@ -116,8 +118,8 @@ model Like {
   userId    String
   projectId String
 
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   @@unique([userId, projectId])
 }
@@ -143,8 +145,8 @@ model Follow {
   followerId  String
   followingId String
 
-  follower  User @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
-  following User @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
+  follower    User   @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following   User   @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
 
   @@unique([followerId, followingId])
 }

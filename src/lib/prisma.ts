@@ -1,17 +1,22 @@
-import { PrismaClient } from "@prisma/client";
-import { PrismaNeon } from "@prisma/adapter-neon";
+import { Pool, neonConfig } from '@neondatabase/serverless';
+import { PrismaNeon } from '@prisma/adapter-neon';
+import { PrismaClient } from '@prisma/client';
+import ws from 'ws';
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined;
-};
-
-function createPrismaClient() {
-  const connectionString = process.env.DATABASE_URL!;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const adapter = new PrismaNeon({ connectionString } as any);
-  return new PrismaClient({ adapter } as ConstructorParameters<typeof PrismaClient>[0]);
+// Set WebSocket constructor for serverless environments (Node.js)
+if (typeof window === 'undefined') {
+  neonConfig.webSocketConstructor = ws;
 }
 
-export const prisma = globalForPrisma.prisma ?? createPrismaClient();
+const connectionString = process.env.DATABASE_URL;
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+const pool = new Pool({ connectionString });
+const adapter = new PrismaNeon(pool);
+
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined };
+
+export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter });
+
+if (process.env.NODE_ENV !== 'production') {
+  globalForPrisma.prisma = prisma;
+}
