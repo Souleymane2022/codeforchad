@@ -47,16 +47,10 @@ async function getUpcomingEvents() {
   });
 }
 
-const eventTypeColors: Record<string, string> = {
-  conference: "bg-chad-blue/10 text-chad-blue",
-  workshop: "bg-emerald-500/10 text-emerald-400",
-  hackathon: "bg-chad-red/10 text-chad-red",
-};
-
-const eventTypeLabels: Record<string, string> = {
-  conference: "Conférence",
-  workshop: "Workshop",
-  hackathon: "Hackathon",
+const eventTypeColors: Record<string, { bg: string; text: string; label: string }> = {
+  conference: { bg: "#EEF2FF", text: "#003082", label: "Conférence" },
+  workshop: { bg: "#ECFDF5", text: "#065F46", label: "Workshop" },
+  hackathon: { bg: "#FFF1F2", text: "#C8102E", label: "Hackathon" },
 };
 
 export default async function HomePage() {
@@ -69,173 +63,197 @@ export default async function HomePage() {
 
   return (
     <div className="overflow-hidden">
-      {/* Hero */}
-      <section className="relative min-h-[92vh] flex items-center">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-chad-blue/10 via-transparent to-[#0a0f1e]" />
-          <div className="absolute top-20 -left-40 w-96 h-96 bg-chad-blue/20 rounded-full blur-3xl" />
-          <div className="absolute top-40 -right-40 w-96 h-96 bg-chad-gold/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-px bg-gradient-to-r from-transparent via-chad-gold/30 to-transparent" />
-          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
-        </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-24 text-center">
-          <div className="inline-flex items-center gap-2 bg-chad-gold/10 border border-chad-gold/20 rounded-full px-4 py-1.5 text-sm text-chad-gold mb-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-chad-gold animate-pulse" />
+      {/* ── HERO ─────────────────────────────────────────────────── */}
+      <section className="relative min-h-[92vh] flex items-center" style={{ background: 'linear-gradient(160deg, #f0f5ff 0%, #f5f7fa 50%, #fff8e1 100%)' }}>
+        {/* decorative blobs */}
+        <div className="absolute top-20 -left-32 w-[500px] h-[500px] rounded-full opacity-20 blur-3xl pointer-events-none" style={{ background: '#003082' }} />
+        <div className="absolute bottom-10 -right-32 w-[400px] h-[400px] rounded-full opacity-15 blur-3xl pointer-events-none" style={{ background: '#FECB00' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-5 blur-3xl pointer-events-none" style={{ background: '#C8102E' }} />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-28 text-center">
+
+          {/* badge */}
+          <div className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold mb-8 shadow-sm"
+            style={{ background: '#FECB00', color: '#0d1b3e' }}>
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
             Communauté active · {stats.users > 0 ? `${stats.users} développeurs` : "développeurs tchadiens"} connectés
           </div>
 
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-tight mb-6">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-black leading-tight mb-6" style={{ color: '#0d1b3e' }}>
             La tech au service
             <br />
-            <span className="bg-gradient-to-r from-chad-blue via-chad-gold to-chad-red bg-clip-text text-transparent gradient-animate">
+            <span className="bg-clip-text text-transparent gradient-animate"
+              style={{ backgroundImage: 'linear-gradient(90deg, #003082, #1a4fa0, #FECB00, #C8102E)' }}>
               du Tchad 🇹🇩
             </span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed" style={{ color: '#6b7a99' }}>
             Code For Chad est la communauté des développeurs, programmeurs et passionnés du
             numérique tchadiens. Partagez, apprenez, collaborez et construisez ensemble.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/auth/register" className="px-8 py-3.5 bg-chad-gold text-[#0a0f1e] font-semibold rounded-xl hover:bg-chad-gold/90 transition-all hover:scale-105 flex items-center gap-2 justify-center">
+            <Link href="/auth/register"
+              className="px-8 py-4 font-bold rounded-xl transition-all hover:scale-105 flex items-center gap-2 justify-center shadow-lg"
+              style={{ background: '#003082', color: '#fff', boxShadow: '0 8px 24px rgba(0,48,130,0.3)' }}>
               Rejoindre la communauté <ArrowRight size={18} />
             </Link>
-            <Link href="/community" className="px-8 py-3.5 bg-white/5 text-white border border-white/10 rounded-xl hover:bg-white/10 transition-all flex items-center gap-2 justify-center">
+            <Link href="/community"
+              className="px-8 py-4 font-semibold rounded-xl transition-all flex items-center gap-2 justify-center"
+              style={{ background: '#fff', color: '#003082', border: '2px solid #003082' }}>
               Explorer les discussions
             </Link>
           </div>
 
+          {/* stats row */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto mt-16">
             {[
-              { label: "Membres", value: stats.users || "100+", icon: Users },
-              { label: "Discussions", value: stats.posts || "50+", icon: MessageSquare },
-              { label: "Projets", value: stats.projects || "20+", icon: Rocket },
-              { label: "Événements", value: stats.events || "10+", icon: Calendar },
+              { label: "Membres", value: stats.users || "100+", icon: Users, color: '#003082' },
+              { label: "Discussions", value: stats.posts || "50+", icon: MessageSquare, color: '#FECB00' },
+              { label: "Projets", value: stats.projects || "20+", icon: Rocket, color: '#C8102E' },
+              { label: "Événements", value: stats.events || "10+", icon: Calendar, color: '#003082' },
             ].map((s) => (
-              <div key={s.label} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-                <s.icon size={20} className="text-chad-gold mx-auto mb-1" />
-                <div className="text-2xl font-bold text-white">{s.value}</div>
-                <div className="text-xs text-gray-500">{s.label}</div>
+              <div key={s.label} className="bg-white rounded-2xl p-5 text-center shadow-sm" style={{ border: '1px solid #dde3f0' }}>
+                <s.icon size={22} className="mx-auto mb-2" style={{ color: s.color }} />
+                <div className="text-2xl font-black" style={{ color: '#0d1b3e' }}>{s.value}</div>
+                <div className="text-xs font-medium mt-1" style={{ color: '#6b7a99' }}>{s.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Features */}
+      {/* ── FEATURES ─────────────────────────────────────────────── */}
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-14">
-          <h2 className="text-3xl font-bold text-white mb-3">Tout ce dont vous avez besoin</h2>
-          <p className="text-gray-400">Une plateforme complète pour la communauté tech tchadienne</p>
+          <h2 className="text-3xl font-black mb-3" style={{ color: '#0d1b3e' }}>Tout ce dont vous avez besoin</h2>
+          <p style={{ color: '#6b7a99' }}>Une plateforme complète pour la communauté tech tchadienne</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {[
-            { icon: MessageSquare, title: "Forum communautaire", desc: "Posez vos questions, partagez vos expériences et obtenez de l'aide de la communauté.", color: "from-chad-blue to-blue-600", href: "/community" },
-            { icon: Rocket, title: "Vitrine de projets", desc: "Présentez vos créations, découvrez les projets innovants des développeurs tchadiens.", color: "from-chad-gold to-orange-500", href: "/projects" },
-            { icon: Calendar, title: "Événements", desc: "Hackathons, conférences, workshops — participez aux événements tech au Tchad.", color: "from-chad-red to-red-600", href: "/events" },
-            { icon: BookOpen, title: "Ressources", desc: "Tutoriels, articles, opportunités — tout pour progresser dans votre carrière tech.", color: "from-emerald-600 to-teal-600", href: "/community?category=ressources" },
+            { icon: MessageSquare, title: "Forum communautaire", desc: "Posez vos questions, partagez vos expériences et obtenez de l'aide de la communauté.", bg: '#003082', href: "/community" },
+            { icon: Rocket, title: "Vitrine de projets", desc: "Présentez vos créations, découvrez les projets innovants des développeurs tchadiens.", bg: '#FECB00', iconColor: '#0d1b3e', href: "/projects" },
+            { icon: Calendar, title: "Événements", desc: "Hackathons, conférences, workshops — participez aux événements tech au Tchad.", bg: '#C8102E', href: "/events" },
+            { icon: BookOpen, title: "Ressources", desc: "Tutoriels, articles, opportunités — tout pour progresser dans votre carrière tech.", bg: '#059669', href: "/community?category=ressources" },
           ].map((f) => (
-            <Link key={f.title} href={f.href} className="group bg-white/3 border border-white/8 rounded-2xl p-6 hover:bg-white/6 hover:border-white/15 transition-all">
-              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${f.color} flex items-center justify-center mb-4`}>
-                <f.icon size={20} className="text-white" />
+            <Link key={f.title} href={f.href} className="group bg-white rounded-2xl p-6 transition-all" style={{ border: '1px solid #dde3f0' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 12px 40px rgba(0,48,130,0.1)'; (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = ''; (e.currentTarget as HTMLElement).style.transform = ''; }}>
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 shadow-sm" style={{ background: f.bg }}>
+                <f.icon size={22} style={{ color: f.iconColor ?? '#fff' }} />
               </div>
-              <h3 className="font-semibold text-white mb-2">{f.title}</h3>
-              <p className="text-sm text-gray-400 leading-relaxed">{f.desc}</p>
+              <h3 className="font-bold mb-2" style={{ color: '#0d1b3e' }}>{f.title}</h3>
+              <p className="text-sm leading-relaxed" style={{ color: '#6b7a99' }}>{f.desc}</p>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* Latest Posts + Events */}
+      {/* ── POSTS + EVENTS ───────────────────────────────────────── */}
       <section className="py-10 max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+          {/* Posts */}
           <div className="lg:col-span-2">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                <MessageSquare size={20} className="text-chad-gold" />
+              <h2 className="text-xl font-black flex items-center gap-2" style={{ color: '#0d1b3e' }}>
+                <MessageSquare size={20} style={{ color: '#FECB00' }} />
                 Discussions récentes
               </h2>
-              <Link href="/community" className="text-sm text-chad-gold hover:underline flex items-center gap-1">
+              <Link href="/community" className="text-sm font-semibold flex items-center gap-1" style={{ color: '#003082' }}>
                 Tout voir <ArrowRight size={14} />
               </Link>
             </div>
             <div className="space-y-3">
               {posts.length === 0 ? (
-                <div className="bg-white/3 border border-white/8 rounded-xl p-8 text-center text-gray-500">
+                <div className="bg-white rounded-xl p-8 text-center" style={{ border: '1px solid #dde3f0', color: '#6b7a99' }}>
                   Aucune discussion pour l&apos;instant — soyez le premier !
                 </div>
               ) : (
                 posts.map((post) => (
-                  <Link key={post.id} href={`/community/${post.id}`} className="flex gap-4 bg-white/3 border border-white/8 rounded-xl p-4 hover:bg-white/6 hover:border-white/15 transition-all group">
+                  <Link key={post.id} href={`/community/${post.id}`}
+                    className="flex gap-4 bg-white rounded-xl p-4 transition-all group"
+                    style={{ border: '1px solid #dde3f0' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#003082'; (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 16px rgba(0,48,130,0.08)'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#dde3f0'; (e.currentTarget as HTMLElement).style.boxShadow = ''; }}>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: `${post.category.color}20`, color: post.category.color }}>
+                        <span className="text-xs px-2.5 py-0.5 rounded-full font-medium" style={{ background: `${post.category.color}15`, color: post.category.color }}>
                           {post.category.icon} {post.category.name}
                         </span>
-                        {post.pinned && <span className="text-xs text-chad-gold">📌 Épinglé</span>}
+                        {post.pinned && <span className="text-xs font-medium" style={{ color: '#FECB00' }}>📌 Épinglé</span>}
                       </div>
-                      <h3 className="font-medium text-white group-hover:text-chad-gold transition-colors truncate">{post.title}</h3>
-                      <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
+                      <h3 className="font-semibold truncate mb-1 transition-colors" style={{ color: '#0d1b3e' }}>{post.title}</h3>
+                      <div className="flex items-center gap-3 text-xs" style={{ color: '#6b7a99' }}>
                         <span>{post.author.name}</span>
                         <span>·</span>
                         <span>{format(new Date(post.createdAt), "d MMM yyyy", { locale: fr })}</span>
                         <span>·</span>
                         <span>{post._count.replies} réponses</span>
-                        <span>·</span>
-                        <span>{post.views} vues</span>
                       </div>
                     </div>
                   </Link>
                 ))
               )}
             </div>
-            <Link href="/community/new" className="mt-4 flex items-center justify-center gap-2 w-full py-3 border border-dashed border-white/20 rounded-xl text-sm text-gray-400 hover:text-white hover:border-white/40 transition-colors">
+            <Link href="/community/new"
+              className="mt-4 flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-semibold transition-colors"
+              style={{ border: '2px dashed #dde3f0', color: '#6b7a99' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#003082'; (e.currentTarget as HTMLElement).style.color = '#003082'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#dde3f0'; (e.currentTarget as HTMLElement).style.color = '#6b7a99'; }}>
               <Zap size={16} />
               Démarrer une nouvelle discussion
             </Link>
           </div>
 
+          {/* Sidebar */}
           <div className="space-y-6">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                  <Calendar size={20} className="text-chad-red" />
+                <h2 className="text-xl font-black flex items-center gap-2" style={{ color: '#0d1b3e' }}>
+                  <Calendar size={20} style={{ color: '#C8102E' }} />
                   Événements
                 </h2>
-                <Link href="/events" className="text-sm text-chad-gold hover:underline flex items-center gap-1">
+                <Link href="/events" className="text-sm font-semibold flex items-center gap-1" style={{ color: '#003082' }}>
                   Tout voir <ArrowRight size={14} />
                 </Link>
               </div>
               <div className="space-y-3">
                 {events.length === 0 ? (
-                  <div className="bg-white/3 border border-white/8 rounded-xl p-6 text-center text-gray-500 text-sm">Bientôt des événements !</div>
+                  <div className="bg-white rounded-xl p-6 text-center text-sm" style={{ border: '1px solid #dde3f0', color: '#6b7a99' }}>Bientôt des événements !</div>
                 ) : (
-                  events.map((evt) => (
-                    <div key={evt.id} className="bg-white/3 border border-white/8 rounded-xl p-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className={`text-xs px-2 py-0.5 rounded-full ${eventTypeColors[evt.type] || "bg-gray-500/20 text-gray-400"}`}>
-                          {eventTypeLabels[evt.type] || evt.type}
-                        </span>
-                        {evt.featured && <span className="text-xs text-chad-gold">★ Vedette</span>}
+                  events.map((evt) => {
+                    const evtStyle = eventTypeColors[evt.type] ?? { bg: '#f3f4f6', text: '#4a5568', label: evt.type };
+                    return (
+                      <div key={evt.id} className="bg-white rounded-xl p-4" style={{ border: '1px solid #dde3f0' }}>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-xs px-2.5 py-0.5 rounded-full font-semibold" style={{ background: evtStyle.bg, color: evtStyle.text }}>
+                            {evtStyle.label}
+                          </span>
+                          {evt.featured && <span className="text-xs font-bold" style={{ color: '#FECB00' }}>★ Vedette</span>}
+                        </div>
+                        <h3 className="font-semibold text-sm leading-snug mb-2" style={{ color: '#0d1b3e' }}>{evt.title}</h3>
+                        <div className="text-xs space-y-0.5" style={{ color: '#6b7a99' }}>
+                          <div>📅 {format(new Date(evt.date), "d MMMM yyyy", { locale: fr })}</div>
+                          <div>📍 {evt.location}</div>
+                        </div>
                       </div>
-                      <h3 className="font-medium text-white text-sm leading-snug mb-2">{evt.title}</h3>
-                      <div className="text-xs text-gray-500 space-y-0.5">
-                        <div>📅 {format(new Date(evt.date), "d MMMM yyyy", { locale: fr })}</div>
-                        <div>📍 {evt.location}</div>
-                      </div>
-                    </div>
-                  ))
+                    );
+                  })
                 )}
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-chad-blue/30 to-chad-blue/10 border border-chad-blue/30 rounded-2xl p-6 text-center">
-              <Globe size={28} className="text-chad-gold mx-auto mb-3" />
-              <h3 className="font-bold text-white mb-2">Rencontre des Esprits Numériques</h3>
-              <p className="text-sm text-gray-400 mb-4">L&apos;événement annuel incontournable des développeurs tchadiens.</p>
-              <Link href="/events" className="block w-full py-2.5 bg-chad-gold text-[#0a0f1e] font-semibold text-sm rounded-lg hover:bg-chad-gold/90 transition-colors">
+            {/* CTA card */}
+            <div className="rounded-2xl p-6 text-center text-white" style={{ background: 'linear-gradient(135deg, #003082, #1a4fa0)' }}>
+              <Globe size={28} className="mx-auto mb-3" style={{ color: '#FECB00' }} />
+              <h3 className="font-black mb-2">Rencontre des Esprits Numériques</h3>
+              <p className="text-sm mb-4 opacity-80">L&apos;événement annuel incontournable des développeurs tchadiens.</p>
+              <Link href="/events"
+                className="block w-full py-2.5 font-bold text-sm rounded-lg transition-colors"
+                style={{ background: '#FECB00', color: '#0d1b3e' }}>
                 En savoir plus
               </Link>
             </div>
@@ -243,40 +261,43 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Featured Projects */}
+      {/* ── FEATURED PROJECTS ─────────────────────────────────────── */}
       {projects.length > 0 && (
         <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-              <Rocket size={22} className="text-chad-gold" />
+            <h2 className="text-2xl font-black flex items-center gap-2" style={{ color: '#0d1b3e' }}>
+              <Rocket size={22} style={{ color: '#C8102E' }} />
               Projets en vedette
             </h2>
-            <Link href="/projects" className="text-sm text-chad-gold hover:underline flex items-center gap-1">
+            <Link href="/projects" className="text-sm font-semibold flex items-center gap-1" style={{ color: '#003082' }}>
               Tous les projets <ArrowRight size={14} />
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {projects.map((project) => (
-              <div key={project.id} className="bg-white/3 border border-white/8 rounded-2xl p-6 hover:bg-white/6 hover:border-white/15 transition-all">
+              <div key={project.id} className="bg-white rounded-2xl p-6 transition-all"
+                style={{ border: '1px solid #dde3f0' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 12px 40px rgba(0,48,130,0.1)'; (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = ''; (e.currentTarget as HTMLElement).style.transform = ''; }}>
                 <div className="flex items-start justify-between mb-3">
-                  <div className="w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-br from-chad-blue to-chad-gold/50 flex items-center justify-center">
-                    <Image src="/logo.png" alt="Code for Chad" width={24} height={24} className="object-contain" />
+                  <div className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center" style={{ background: '#f0f3f8', border: '1px solid #dde3f0' }}>
+                    <Image src="/logo.png" alt="Logo" width={28} height={28} className="object-contain" />
                   </div>
-                  <span className="text-xs text-chad-gold bg-chad-gold/10 px-2 py-0.5 rounded-full">★ Vedette</span>
+                  <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: '#FECB00', color: '#0d1b3e' }}>★ Vedette</span>
                 </div>
-                <h3 className="font-semibold text-white mb-2">{project.title}</h3>
-                <p className="text-sm text-gray-400 mb-4 line-clamp-2">{project.description}</p>
+                <h3 className="font-bold mb-2" style={{ color: '#0d1b3e' }}>{project.title}</h3>
+                <p className="text-sm mb-4 line-clamp-2" style={{ color: '#6b7a99' }}>{project.description}</p>
                 <div className="flex flex-wrap gap-1.5 mb-4">
                   {project.tags.split(",").slice(0, 3).map((tag) => (
-                    <span key={tag} className="text-xs bg-white/5 border border-white/10 text-gray-400 px-2 py-0.5 rounded-full">{tag.trim()}</span>
+                    <span key={tag} className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: '#EEF2FF', color: '#003082' }}>{tag.trim()}</span>
                   ))}
                 </div>
-                <div className="flex items-center justify-between text-xs text-gray-500">
+                <div className="flex items-center justify-between text-xs" style={{ color: '#6b7a99' }}>
                   <span>par {project.author.name}</span>
                   <div className="flex items-center gap-3">
-                    <span>❤️ {project._count.likes}</span>
+                    <span style={{ color: '#C8102E' }}>❤️ {project._count.likes}</span>
                     {project.github && (
-                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="hover:text-white"><ExternalLink size={14} /></a>
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" style={{ color: '#003082' }}><ExternalLink size={14} /></a>
                     )}
                   </div>
                 </div>
@@ -286,16 +307,21 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Final CTA */}
+      {/* ── FINAL CTA ────────────────────────────────────────────── */}
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="relative bg-gradient-to-br from-chad-blue/20 via-[#0a0f1e] to-chad-red/10 border border-white/10 rounded-3xl p-12 text-center overflow-hidden">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-px bg-gradient-to-r from-transparent via-chad-gold/50 to-transparent" />
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Prêt à rejoindre la communauté ?</h2>
-          <p className="text-gray-400 mb-8 max-w-lg mx-auto">
+        <div className="relative rounded-3xl p-12 text-center text-white overflow-hidden"
+          style={{ background: 'linear-gradient(135deg, #003082 0%, #001855 50%, #1a0a30 100%)' }}>
+          {/* Chad flag stripe at top of CTA */}
+          <div className="absolute top-0 left-0 right-0 h-1.5 chad-stripe" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-px opacity-30" style={{ background: 'linear-gradient(90deg, transparent, #FECB00, transparent)' }} />
+          <h2 className="text-3xl sm:text-4xl font-black mb-4">Prêt à rejoindre la communauté ?</h2>
+          <p className="mb-8 max-w-lg mx-auto opacity-80">
             Des centaines de développeurs tchadiens construisent ensemble.
             Rejoignez-nous, partagez vos projets et faites avancer le Tchad numérique.
           </p>
-          <Link href="/auth/register" className="inline-flex items-center gap-2 px-10 py-4 bg-chad-gold text-[#0a0f1e] font-bold rounded-xl hover:bg-chad-gold/90 transition-all hover:scale-105 text-lg">
+          <Link href="/auth/register"
+            className="inline-flex items-center gap-2 px-10 py-4 font-black rounded-xl transition-all hover:scale-105 text-lg shadow-lg"
+            style={{ background: '#FECB00', color: '#0d1b3e', boxShadow: '0 8px 24px rgba(254,203,0,0.4)' }}>
             Créer un compte gratuit <ArrowRight size={20} />
           </Link>
         </div>
